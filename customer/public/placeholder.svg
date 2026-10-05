@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-labelledby="title desc">
+  <title id="title">Homies Wardrobe product placeholder</title>
+  <desc id="desc">A neutral placeholder image for products without uploaded photography.</desc>
+  <rect width="600" height="800" fill="#e8e6e1"/>
+  <path d="M160 690c34-128 80-202 140-224 60 22 106 96 140 224" fill="#b7b2aa"/>
+  <path d="M232 480c18 22 42 34 68 34s50-12 68-34l42 42-110 112-110-112z" fill="#d2cec7"/>
+  <path d="M252 286c0-55 32-96 48-96s48 41 48 96v76c0 48-21 82-48 82s-48-34-48-82z" fill="#c7c1b8"/>
+  <text x="300" y="748" text-anchor="middle" fill="#6b665f" font-family="Georgia, serif" font-size="22" letter-spacing="3">HOMIES WARDROBE</text>
+</svg>

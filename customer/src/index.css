@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+
+  --color-brand: #E11D48;
+  --color-primary: #111111;
+  --color-secondary: #6B7280;
+  --color-border: #E5E7EB;
+  --color-background: #FFFFFF;
+  --color-section: #F8F8F8;
+  --color-card: #FFFFFF;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@keyframes floatHero {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8px, -18px, 0) scale(1.04);
+  }
+}
+
+.hero-orb {
+  animation: floatHero 9s ease-in-out infinite;
+}
+
+.hero-card {
+  animation: floatHero 8s ease-in-out infinite;
+}
