@@ -19,8 +19,19 @@ const startServer = async () => {
 };
 
 if (require.main === module) {
-  startServer().catch(async () => {
-    console.error('Server startup failed. Check database access, environment configuration, and port availability.');
+  startServer().catch(async (err) => {
+    // Strip any embedded credentials or URIs before logging
+    const raw = (err && err.message) ? err.message : String(err);
+    const safe = raw.replace(/mongodb(\+srv)?:\/\/[^\s]+/gi, '[REDACTED_URI]');
+    console.error('Server startup failed. Check environment configuration and database access.');
+    console.error('[startup] name   :', err && err.name ? err.name : 'Error');
+    console.error('[startup] code   :', err && err.code ? err.code : 'none');
+    console.error('[startup] reason :', safe);
+    if (err && err.stack) {
+      // Print only the first two lines of the stack (location only, no args)
+      const location = err.stack.split('\n').slice(1, 3).join(' | ');
+      console.error('[startup] at     :', location);
+    }
     await mongoose.disconnect();
     process.exitCode = 1;
   });
