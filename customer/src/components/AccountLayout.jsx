@@ -13,7 +13,7 @@ const tabs = [
 export function AccountLayout() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-      <div className="grid gap-10 lg:grid-cols-[280px_1fr]">
+      <div className="grid gap-10 lg:grid-cols-[280px_minmax(0,1fr)]">
         <aside className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="mb-10">
             <h2 className="text-lg font-semibold uppercase tracking-[0.3em] text-secondary">Account</h2>

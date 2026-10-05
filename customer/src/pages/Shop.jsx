@@ -152,7 +152,7 @@ export function Shop({ initialGender = '' }) {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
         <aside className="hidden lg:block">
           <ShopFilters
             categories={categories}
@@ -166,7 +166,7 @@ export function Shop({ initialGender = '' }) {
           />
         </aside>
 
-        <section>
+        <section className="min-w-0">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <ShopSortBar sort={sort} onSortChange={(value) => { setSort(value); setPage(1); }} productCount={filteredProducts.length} />
           </div>
@@ -182,7 +182,7 @@ export function Shop({ initialGender = '' }) {
               <Button variant="outline" onClick={resetFilters}>Reset filters</Button>
             </div>
           ) : (
-            <motion.div layout className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <motion.div layout className="product-grid grid grid-cols-2 gap-6 xl:grid-cols-3">
               {displayedProducts.map((product, index) => (
                 <motion.div key={product.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: index * 0.05 }}>
                   <ProductCard product={product} index={index} />

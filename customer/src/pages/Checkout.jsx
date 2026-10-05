@@ -100,7 +100,7 @@ export function Checkout() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="checkout-page max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <h1 className="text-4xl font-heading font-bold uppercase tracking-tight mb-10">Checkout</h1>
 
       {error && (
@@ -109,7 +109,7 @@ export function Checkout() {
         </div>
       )}
 
-      <form onSubmit={handleSubmitOrder} className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12">
+      <form onSubmit={handleSubmitOrder} className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-12">
         <div className="space-y-8">
           {/* Shipping Address */}
           <div className="rounded-3xl border border-gray-200 p-6 md:p-8 bg-white shadow-sm space-y-6">

@@ -48,3 +48,70 @@
 .hero-card {
   animation: floatHero 8s ease-in-out infinite;
 }
+/* Responsive overrides share the existing components and leave desktop utilities intact. */
+@media (max-width: 1024px) {
+  main .grid > *, main .flex > *, footer .grid > * { min-width: 0; }
+  main, footer { overflow-wrap: anywhere; }
+  main input:not([type='radio']):not([type='checkbox']), main select, main textarea { min-width: 0; max-width: 100%; }
+  .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .customer-header { padding-block: 12px; }
+  .customer-header nav { display: none; }
+  .mobile-menu-toggle { display: flex; align-items: center; justify-content: center; }
+  .header-actions { gap: 8px; }
+  .header-actions > * { margin-inline: 0; }
+  .customer-header + main { padding-top: 69px; }
+  .product-gallery-image { height: auto; aspect-ratio: 3 / 4; }
+  .checkout-page label.flex { flex-wrap: wrap; gap: 12px; }
+  .checkout-page .sticky { position: static; }
+}
+@media (max-width: 768px) {
+  .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+  .product-card { gap: 8px; }
+  .product-card h3 { font-size: 13px; white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: 2.5rem; line-height: 1.25rem; }
+  .product-card p { font-size: 11px; }
+  .product-card .product-quick-add { padding: 6px; transform: none; opacity: 1; }
+  .product-quick-add button { min-height: 44px; padding: 8px 4px; font-size: 11px; letter-spacing: .05em; }
+  .customer-brand { font-size: clamp(14px, 4vw, 20px); min-width: 0; }
+  .customer-header .header-actions { gap: 0; flex-shrink: 0; }
+  .header-search, .header-actions > a[href='/cart'], .mobile-menu-toggle { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; padding: 0; }
+  .header-actions > a[href='/wishlist'], .header-actions > div { display: none; }
+  .customer-header { padding-block: 8px; }
+  .customer-header + main { padding-top: 61px; }
+  .mobile-navigation > div > a { font-size: 18px; }
+  .mobile-navigation button { min-width: 44px; min-height: 44px; }
+  main .py-16, main .py-20, main .py-24 { padding-block: 32px; }
+  main .text-4xl { font-size: 28px; }
+  main .text-5xl { font-size: 36px; }
+  main .gap-12, main .gap-10 { gap: 24px; }
+  main .p-6, main .p-8 { padding: 16px; }
+  main .flex > button, main .flex > a { max-width: 100%; }
+  main button, main a.inline-flex { min-height: 44px; }
+  main button.inline-flex, main a.inline-flex { white-space: normal; height: auto; padding-block: 10px; text-align: center; }
+  main input:not([type='radio']):not([type='checkbox']):not([type='range']), main select, main textarea { font-size: 16px; }
+  .cart-page aside [class*='tracking-'] { letter-spacing: .06em; gap: 8px; flex-wrap: wrap; }
+  .cart-page .text-right { text-align: left; }
+  .checkout-page .grid { grid-template-columns: minmax(0, 1fr); }
+  .checkout-page .flex.items-center.gap-3 { flex-wrap: wrap; }
+  .checkout-page img { flex-shrink: 0; }
+  .checkout-page .font-semibold { overflow-wrap: anywhere; }
+  .complete-look { width: 100%; letter-spacing: .04em; }
+  .stylist-products > div { padding: 8px; border-radius: 16px; }
+  .stylist-products img, .related-products img { height: auto; aspect-ratio: 3 / 4; object-fit: cover; }
+  .stylist-products h3 { font-size: 13px; }
+  .stylist-products button { padding-inline: 8px; letter-spacing: .02em; }
+  footer .gap-12 { gap: 24px; }
+  footer .space-x-6 { flex-wrap: wrap; justify-content: center; gap: 12px; }
+  footer .space-x-6 > * { margin-inline: 0; }
+  main table { min-width: 0; table-layout: fixed; }
+  main table th, main table td { padding: 10px 6px; font-size: 12px; letter-spacing: normal; }
+  main table caption { padding: 12px; letter-spacing: .05em; }
+}
+@media (max-width: 360px) {
+  .customer-header > div { padding-inline: 12px; }
+  .customer-brand { font-size: 14px; }
+  .product-grid { gap: 14px 10px; }
+  .product-card h3 { font-size: 12px; }
+}
+@media (hover: none) {
+  .product-quick-add { transform: none; opacity: 1; }
+}

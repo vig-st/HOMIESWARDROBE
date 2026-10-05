@@ -9,7 +9,7 @@ import { Button } from '../components/ui/Button';
 
 const DEFAULT_FALLBACK_IMAGE = new URL('/placeholder.svg', window.location.origin).href;
 const STYLES = ['Streetwear', 'Minimal', 'Casual', 'Oversized', 'Formal', 'Smart Casual', 'Vintage', 'Sporty'];
-const FITS = ['Oversized', 'Regular', 'Slim', 'Relaxed'];
+const FITS = ['Oversized', 'Regular', 'Slim', 'Relaxed', 'Straight'];
 const OCCASIONS = ['Casual', 'College', 'Office', 'Date', 'Party', 'Travel', 'Gym'];
 
 export function AIStylist() {
@@ -75,11 +75,11 @@ export function AIStylist() {
           Curate Your Signature Look
         </h1>
         <p className="mt-3 text-sm text-secondary">
-          Tell us what you're dressing for. Our AI Stylist curates complete, matching outfits straight from our real MongoDB catalog.
+          Tell us what you're dressing for. Our AI Stylist recommends matching items within your budget straight from our real MongoDB catalog.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[400px_minmax(0,1fr)] gap-12 items-start">
         {/* Form Panel */}
         <form onSubmit={handleGenerateOutfit} className="rounded-3xl border border-gray-200 p-6 md:p-8 bg-white shadow-sm space-y-6">
           <h2 className="text-xl font-heading font-bold uppercase tracking-tight mb-4">Stylist Preferences</h2>
@@ -180,7 +180,7 @@ export function AIStylist() {
         {/* Outfit Recommendations Result */}
         <div>
           {loading && (
-            <div className="rounded-3xl border border-dashed border-gray-300 p-20 text-center space-y-4">
+            <div className="rounded-3xl border border-dashed border-gray-300 p-6 md:p-20 text-center space-y-4">
               <div className="w-12 h-12 border-4 border-gray-200 border-t-black rounded-full animate-spin mx-auto" />
               <h2 className="text-xl font-heading uppercase font-semibold">Creating your personalized look...</h2>
               <p className="text-sm text-secondary">Analyzing catalog styles, scoring matches, and assembling outfit items.</p>
@@ -194,7 +194,7 @@ export function AIStylist() {
           )}
 
           {!loading && !recommendation && !error && (
-            <div className="rounded-3xl border border-dashed border-gray-300 p-16 text-center space-y-4 bg-gray-50">
+            <div className="rounded-3xl border border-dashed border-gray-300 p-6 md:p-16 text-center space-y-4 bg-gray-50">
               <Sparkles className="w-10 h-10 text-gray-400 mx-auto" />
               <h2 className="text-2xl font-heading uppercase font-semibold">Your Outfit Canvas</h2>
               <p className="text-sm text-secondary max-w-md mx-auto">
@@ -212,20 +212,21 @@ export function AIStylist() {
                     <p className="text-sm text-secondary mt-1">{recommendation.explanation}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="text-xs uppercase text-secondary tracking-widest font-semibold">Outfit Total</div>
+                    <div className="text-sm text-secondary">Selected Budget: ₹{recommendation.preferences.budget}</div>
+                    <div className="text-xs uppercase text-secondary tracking-widest font-semibold">Look Total</div>
                     <div className="text-2xl font-bold text-primary">₹{recommendation.totalCost}</div>
                   </div>
                 </div>
 
                 <div className="flex justify-end">
-                  <Button onClick={handleAddCompleteLook} className="bg-black text-white hover:bg-gray-800 py-3 px-6 inline-flex items-center gap-2">
+                  <Button onClick={handleAddCompleteLook} className="complete-look bg-black text-white hover:bg-gray-800 py-3 px-6 inline-flex items-center gap-2">
                     <ShoppingBag className="w-4 h-4" /> Add Complete Look to Cart
                   </Button>
                 </div>
               </div>
 
               {/* Recommended Items Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="stylist-products product-grid grid grid-cols-2 xl:grid-cols-3 gap-6">
                 {recommendation.outfit.map((item) => (
                   <div key={item.id} className="rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm flex flex-col justify-between p-4">
                     <div>
@@ -244,7 +245,7 @@ export function AIStylist() {
                       <div className="text-sm font-bold text-primary mt-2">₹{(item.price - (item.discountPrice || 0)).toFixed(2)}</div>
                     </div>
 
-                    <div className="mt-6 flex items-center gap-2">
+                    <div className="mt-6 flex flex-wrap items-center gap-2">
                       <Button
                         onClick={() => {
                           addToCart({ ...item, quantity: 1, selectedSize: item.sizes?.[0] || 'M', selectedColor: item.colors?.[0] || 'Default' });

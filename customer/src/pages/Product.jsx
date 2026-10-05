@@ -163,7 +163,7 @@ function ProductDetails({ id }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* 3-Column Layout on Desktop: LEFT: thumbnails | CENTER: large image | RIGHT: product details */}
-      <div className="grid grid-cols-1 lg:grid-cols-[100px_1fr_1fr] gap-8 xl:gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[100px_minmax(0,1fr)_minmax(0,1fr)] gap-8 xl:gap-12 items-start">
         
         {/* LEFT: Thumbnail Gallery (Desktop: vertical sidebar / Mobile: horizontal scroll underneath main image) */}
         {validGallery.length > 1 && (
@@ -201,7 +201,7 @@ function ProductDetails({ id }) {
             src={selectedImageSrc}
             alt={product.name}
             onError={handleMainImageError}
-            className="w-full h-[400px] sm:h-[500px] lg:h-[560px] object-cover"
+            className="product-gallery-image w-full h-[400px] sm:h-[500px] lg:h-[560px] object-cover"
           />
         </div>
 
@@ -222,7 +222,7 @@ function ProductDetails({ id }) {
             <span className="text-xs text-secondary">({reviews.length || product.numReviews || 0} reviews)</span>
           </div>
 
-          <div className="flex items-baseline gap-4 mb-6">
+          <div className="flex flex-wrap items-baseline gap-4 mb-6">
             <span className="text-3xl font-bold text-primary">₹{finalPrice}</span>
             {(product.discountPrice || 0) > 0 && <span className="text-base text-secondary line-through">₹{product.price.toFixed(2)}</span>}
           </div>
@@ -259,7 +259,7 @@ function ProductDetails({ id }) {
             </div>
           </div>
 
-          <div className="mb-8 flex items-center gap-4">
+          <div className="mb-8 flex flex-wrap items-center gap-4">
             <label className="text-xs font-semibold uppercase text-secondary">Quantity</label>
             <div className="flex items-center gap-3 border rounded-xl p-1">
               <button type="button" onClick={() => setQuantity(q => Math.max(1, q - 1))} className="px-3 py-1 text-lg font-bold">-</button>
@@ -385,7 +385,7 @@ function ProductDetails({ id }) {
       {relatedProducts.length > 0 && (
         <div className="mt-20">
           <h3 className="text-xl font-bold uppercase mb-6">You Might Also Like</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="product-grid related-products grid grid-cols-2 md:grid-cols-4 gap-6">
             {relatedProducts.map(p => (
               <Link key={p.id} to={`/product/${p.id}`} className="group block rounded-2xl border p-3 hover:shadow-md transition">
                 <img

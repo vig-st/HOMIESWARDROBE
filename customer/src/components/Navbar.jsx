@@ -35,7 +35,7 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b',
+          'customer-header fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b',
           isScrolled ? 'border-border py-4' : 'border-transparent py-6'
         )}
       >
@@ -43,14 +43,14 @@ export function Navbar() {
           <div className="flex items-center justify-between">
             {/* Mobile Menu Toggle */}
             <button
-              className="lg:hidden p-2 -ml-2 text-primary"
+              aria-label="Open navigation" aria-expanded={isMobileMenuOpen} className="mobile-menu-toggle lg:hidden p-2 -ml-2 text-primary"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <Menu className="w-5 h-5" />
             </button>
 
             {/* Logo */}
-            <Link to="/" className="text-xl md:text-2xl font-bold font-heading tracking-tighter uppercase shrink-0">
+            <Link to="/" className="customer-brand text-xl md:text-2xl font-bold font-heading tracking-tighter uppercase shrink-0">
               Homies<span className="text-brand">Wardrobe</span>
             </Link>
 
@@ -73,10 +73,10 @@ export function Navbar() {
             </nav>
 
             {/* Icons */}
-            <div className="relative flex items-center space-x-4 md:space-x-6">
-              <button className="text-primary hover:text-brand transition-colors">
+            <div className="header-actions relative flex items-center space-x-4 md:space-x-6">
+              <Link to="/shop" aria-label="Search products" className="header-search text-primary hover:text-brand transition-colors">
                 <Search className="w-5 h-5" />
-              </button>
+              </Link>
 
               <Link to="/wishlist" className="hidden sm:block relative text-primary hover:text-brand transition-colors">
                 <Heart className="w-5 h-5" />
@@ -87,7 +87,7 @@ export function Navbar() {
                 )}
               </Link>
 
-              <Link to="/cart" className="relative text-primary hover:text-brand transition-colors">
+              <Link to="/cart" aria-label="Shopping bag" className="relative text-primary hover:text-brand transition-colors">
                 <ShoppingBag className="w-5 h-5" />
                 {cartItems.length > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 bg-brand text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
@@ -103,7 +103,7 @@ export function Navbar() {
                   <Link to="/register" className="text-sm text-secondary">Register</Link>
                 </div>
               ) : (
-                <div className="relative">
+                <div className="header-profile relative">
                   <button
                     onClick={() => setProfileOpen((s) => !s)}
                     className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-sm"
@@ -129,13 +129,13 @@ export function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[60] bg-white flex flex-col">
+        <div className="mobile-navigation fixed inset-0 z-[60] bg-white flex flex-col overflow-y-auto">
           <div className="p-4 flex items-center justify-between border-b border-border">
             <Link to="/" className="text-xl font-bold font-heading tracking-tighter uppercase" onClick={() => setIsMobileMenuOpen(false)}>
               Homies<span className="text-brand">Wardrobe</span>
             </Link>
             <button
-              className="p-2 text-primary"
+              aria-label="Close navigation" className="p-2 text-primary"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <X className="w-6 h-6" />
@@ -153,8 +153,10 @@ export function Navbar() {
               </Link>
             ))}
             <div className="pt-6 border-t border-border flex flex-col space-y-4">
-              <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="text-lg text-secondary hover:text-primary">Account</Link>
+              <Link to={isAuthenticated ? "/account" : "/login"} onClick={() => setIsMobileMenuOpen(false)} className="text-lg text-secondary hover:text-primary">Account</Link>
               <Link to="/wishlist" onClick={() => setIsMobileMenuOpen(false)} className="text-lg text-secondary hover:text-primary">Wishlist</Link>
+              {!isAuthenticated && <Link to="/register" onClick={() => setIsMobileMenuOpen(false)} className="text-lg text-secondary">Register</Link>}
+              {isAuthenticated && <button onClick={() => { logout(); setIsMobileMenuOpen(false); navigate('/'); }} className="text-left text-lg text-secondary">Logout</button>}
             </div>
           </nav>
         </div>

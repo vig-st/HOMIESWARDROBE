@@ -71,8 +71,8 @@ const mapProduct = (product) => ({
   season: product.season || 'All Season',
   fit: product.fit || 'Oversized',
   tags: product.tags || [],
-  rating: Number(product.rating || 4.5),
-  numReviews: Number(product.numReviews || 10),
+  rating: Number(product.rating ?? 0),
+  numReviews: Number(product.numReviews ?? 0),
   createdAt: product.createdAt || new Date().toISOString(),
   updatedAt: product.updatedAt || new Date().toISOString(),
 });

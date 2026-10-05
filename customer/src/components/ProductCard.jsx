@@ -28,7 +28,7 @@ export function ProductCard({ product, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group flex flex-col gap-4"
+      className="product-card group min-w-0 flex flex-col gap-4"
     >
       {/* Image Container */}
       <div className="relative aspect-[3/4] overflow-hidden bg-section">
@@ -41,7 +41,7 @@ export function ProductCard({ product, index }) {
           />
         </Link>
         {/* Quick Add overlay */}
-        <div className="absolute bottom-0 left-0 w-full p-4 translate-y-full opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="product-quick-add absolute bottom-0 left-0 w-full p-4 translate-y-full opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
           <button
             onClick={(event) => {
               event.preventDefault();
@@ -62,7 +62,7 @@ export function ProductCard({ product, index }) {
             {product.name}
           </h3>
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {discount > 0 ? (
             <>
               <span className="text-brand font-medium">₹{(product.price - discount).toFixed(2)}</span>

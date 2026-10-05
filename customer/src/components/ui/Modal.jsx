@@ -11,7 +11,7 @@ export function Modal({ open, title, onClose, children, actions }) {
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl"
+            className="max-h-[calc(100dvh-2rem)] overflow-y-auto w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
@@ -21,7 +21,7 @@ export function Modal({ open, title, onClose, children, actions }) {
               <button onClick={onClose} className="text-secondary">Close</button>
             </div>
             <div className="space-y-4">{children}</div>
-            {actions && <div className="mt-6 flex justify-end gap-3">{actions}</div>}
+            {actions && <div className="mt-6 flex flex-wrap justify-end gap-3">{actions}</div>}
           </motion.div>
         </motion.div>
       )}

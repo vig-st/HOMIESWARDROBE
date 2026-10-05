@@ -174,7 +174,7 @@ export function Home() {
               View All <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          <div className="product-grid grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {newArrivals.map((product, index) => (
               <ProductCard key={product.id} product={product} index={index} />
             ))}
@@ -212,7 +212,7 @@ export function Home() {
       {/* Best Sellers */}
       <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <SectionHeading title="Best Sellers" subtitle="Most loved by our community" />
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+        <div className="product-grid grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {bestSellers.map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} />
           ))}

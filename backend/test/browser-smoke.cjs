@@ -67,6 +67,9 @@ async function main() {
     });
     await new Promise((resolve) => apiServer.listen(0, '127.0.0.1', resolve));
   } else {
+    // Browser regressions read the existing catalog; never create collections/indexes.
+    require('mongoose').set('autoIndex', false);
+    require('mongoose').set('autoCreate', false);
     apiServer = await require('../server').startServer();
   }
   apiBase = 'http://127.0.0.1:' + apiServer.address().port;
@@ -75,6 +78,11 @@ async function main() {
   assert.ok(product, 'catalog has an in-stock product for fallback testing');
   if (process.env.BROWSER_FIXTURE_MODE !== '1') {
     for (const item of catalog.data) {
+      const detail = await (await fetch(apiBase + '/api/products/' + item.id)).json();
+      assert.equal(detail.data.id, item.id, item.name + ' opens individually');
+      assert.equal(detail.data.rating, item.rating);
+      assert.equal(detail.data.numReviews, item.numReviews);
+      assert.equal(detail.data.images.length, item.sku === 'MEN-TEE-001' ? 6 : 1);
       assert.ok(item.images?.length, item.name + ' has photography');
       for (const image of item.images) {
         const response = await fetch(new URL(image, apiBase));
@@ -82,7 +90,7 @@ async function main() {
         await response.arrayBuffer();
       }
     }
-    console.log('PASS catalog: every product has accessible gallery images');
+    console.log('PASS catalog: all 25 details, real rating values and six/one-image galleries are accessible');
   }
   let failGallery = false;
   const settings = (await (await fetch(apiBase + '/api/settings')).json()).data;
@@ -236,6 +244,30 @@ async function main() {
   await clickButton('Save Demo Message');
   await waitFor('document.body.textContent.includes("No message was sent to HOMIESWARDROBE.")', 'contact demo confirmation');
   pass('contact stores locally and explicitly says not sent');
+
+  if (process.env.BROWSER_FIXTURE_MODE !== '1') {
+    await navigate('/ai-stylist');
+    assert.ok(await evaluate('Array.from(document.querySelectorAll("select")).some(s => Array.from(s.options).some(o => o.value === "Straight"))'));
+    const prefs = { gender: 'men', style: 'Streetwear', occasion: 'College', color: 'Black', fit: 'Oversized', budget: 5000 };
+    const expected = (await (await fetch(apiBase + '/api/stylist/recommend', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(prefs),
+    })).json()).data;
+    assert.ok(expected.totalCost <= prefs.budget);
+    await clickButton('Create My Look');
+    await waitFor('document.querySelectorAll(".stylist-products > div").length === ' + expected.outfit.length, 'stylist results');
+    assert.ok(await evaluate('document.body.textContent.includes("Selected Budget: ' + String.fromCharCode(0x20b9) + '5000")'));
+    assert.ok(await evaluate('document.body.textContent.includes("Look Total")'));
+    await waitFor('Array.from(document.querySelectorAll(".stylist-products img")).every(i => i.complete && i.naturalWidth > 0)', 'stylist front images');
+    await clickButton('Add Complete Look to Cart');
+    await waitFor('JSON.parse(localStorage.getItem("homiesCart") || "[]").length === ' + expected.outfit.length, 'complete look added');
+    const added = await evaluate('JSON.parse(localStorage.getItem("homiesCart") || "[]")');
+    assert.deepEqual(added.map((p) => p.id).sort(), expected.outfit.map((p) => p.id).sort());
+    assert.ok(added.every((p) => p.quantity === 1 && p.selectedSize === p.sizes[0] && p.selectedColor === p.colors[0]));
+    await navigate('/cart');
+    await waitFor('document.body.textContent.includes(' + JSON.stringify(expected.outfit[0].name) + ')', 'complete look persists in cart');
+    await evaluate('localStorage.removeItem("homiesCart")');
+    pass('Straight selector, selected budget, compliant look total, real images and Add Complete Look to Cart');
+  }
 
   failGallery = true;
   await navigate('/product/' + product._id);

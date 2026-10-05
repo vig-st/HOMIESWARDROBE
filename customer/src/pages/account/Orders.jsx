@@ -23,7 +23,7 @@ export function Orders() {
                   {order.paymentMethod?.includes('(Demo)') && ' — Simulated only; no payment collected or verified.'}
                 </p>
               </div>
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center justify-between gap-3">
                   <span className={`rounded-full px-3 py-1 text-xs uppercase ${order.orderStatus === 'Delivered' ? 'bg-emerald-100 text-emerald-800' : order.orderStatus === 'Shipped' ? 'bg-sky-100 text-sky-800' : 'bg-amber-100 text-amber-800'}`}>
                   {order.orderStatus}
                 </span>
